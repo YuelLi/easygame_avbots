@@ -9,6 +9,7 @@ token = "NjYxNDI2OTY5NzkwOTA2Mzkw.Xg_GZg.7rNhVbgO-EwMVhZjOXNB26z99ds"
 bot = commands.Bot(command_prefix='!')
 channels_dict = {}
 queue_channel = None
+jump_channel_id = 663470242269495326
 
 
 @bot.event
@@ -37,17 +38,22 @@ async def on_ready():
 
 @bot.command()
 async def av(ctx, number: int):
-    print(ctx.channel)
-    target_channel = channels_dict.get(number, None)
-    # print(ctx, number, target_channel)
-    if target_channel:
-        await ctx.author.move_to(target_channel)
+    # print(ctx.channel)
+    if ctx.channel.id == jump_channel_id:
+        user_voice = ctx.author.voice
+        target_channel = channels_dict.get(number, None)
+        # print(ctx, number, target_channel)
+        if target_channel and user_voice is not None:
+            await ctx.author.move_to(target_channel)
+
+    await ctx.message.delete()
 
 
 @bot.command()
 async def q(ctx):
-    # print(ctx, queue_channel)
-    await ctx.author.move_to(queue_channel)
+    if ctx.channel.id == jump_channel_id and ctx.author.voice is not None:
+        await ctx.author.move_to(queue_channel)
+    await ctx.message.delete()
 
 
 bot.run(token)
