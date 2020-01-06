@@ -36,9 +36,9 @@ current_idle_times = 0
 daemon_interval = 5
 min_idle_times = 2
 max_idle_times = 2 # 180s
-video_length = 20
+video_length = 25
 
-
+audio_source = discord.FFmpegPCMAudio(count_down_audio_file)
 
 async def queue_daemon():
     global current_idle_times
@@ -85,16 +85,9 @@ async def play_count_down():
     voice_channel = await queue_channel.connect()
     
 
-    audio_source = discord.FFmpegPCMAudio(count_down_audio_file)
     voice_channel.play(audio_source, after=None)
     await asyncio.sleep(video_length)
     await voice_channel.disconnect()
-
-@bot.command(pass_context=True)
-async def disconnect(ctx):
-    voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
-    await voice.disconnect()
-
 
 bot.loop.create_task(queue_daemon())
 bot.run(token)
