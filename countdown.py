@@ -89,11 +89,5 @@ async def play_count_down():
     await asyncio.sleep(video_length)
     await voice_channel.disconnect()
 
-@bot.command(pass_context=True)
-async def disconnect(ctx):
-    voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
-    await voice.disconnect()
-
-
 bot.loop.create_task(queue_daemon())
 bot.run(token)
