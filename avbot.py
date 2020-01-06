@@ -2,6 +2,7 @@ import re
 import discord
 
 from discord.ext import commands
+from discord.ext.commands import CommandNotFound
 
 av_re = re.compile("奥山-(?P<av_id>\d{3})")
 
@@ -36,24 +37,40 @@ async def on_ready():
                 print("Add Channel: %s" % channel_id)
 
 
+
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, CommandNotFound):
+        await ctx.message.delete()
+
+
 @bot.command()
-async def av(ctx, number: int):
+async def av(ctx, number):
     # print(ctx.channel)
+    if not number.isnumeric():
+        return
+
     if ctx.channel.id == jump_channel_id:
         user_voice = ctx.author.voice
-        target_channel = channels_dict.get(number, None)
+        target_channel = channels_dict.get(int(number), None)
         # print(ctx, number, target_channel)
         if target_channel and user_voice is not None:
             await ctx.author.move_to(target_channel)
 
-    await ctx.message.delete()
+    #await ctx.message.delete()
 
 
 @bot.command()
 async def q(ctx):
     if ctx.channel.id == jump_channel_id and ctx.author.voice is not None:
         await ctx.author.move_to(queue_channel)
-    await ctx.message.delete()
+    #await ctx.message.delete()
+
+
+@bot.event
+async def on_message(message):
+    await bot.process_commands(message)
+    await message.delete()
 
 
 bot.run(token)
