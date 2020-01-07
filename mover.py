@@ -69,8 +69,9 @@ async def q(ctx):
 
 @bot.event
 async def on_message(message):
-    await bot.process_commands(message)
-    await message.delete()
+    if message.channel.id == jump_channel_id:
+        await bot.process_commands(message)
+        await message.delete()
 
 
 bot.run(token)
