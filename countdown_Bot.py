@@ -27,15 +27,15 @@ dps_role_id = 661406567131775046
 # tank count : 4
 # healer count : 6
 # overall count : 40
-tank_req_floor = 1
-healer_req_floor = 1
-player_req_floor = 4
+tank_req_floor = 4
+healer_req_floor = 6
+player_req_floor = 50
 
 # queue count down interval values
 current_idle_times = 0
 daemon_interval = 5
-MIN_IDLE_TIMES = 6
-MAX_IDLE_TIMES = 24  # 120s
+MIN_IDLE_TIMES = 12
+MAX_IDLE_TIMES = 36  # 120s
 
 
 
