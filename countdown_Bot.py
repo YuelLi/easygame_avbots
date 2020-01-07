@@ -111,6 +111,8 @@ class CountDown(discord.Client):
 
         audio_source = discord.FFmpegPCMAudio(count_down_audio_file)
         self.voice_client.play(audio_source, after=None)
+        audio_source.source = discord.PCMVolumeTransformer(audio_source.source)
+        audio_source.source.volume = 0.6
 
         self.playing = True
 
