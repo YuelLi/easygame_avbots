@@ -61,7 +61,9 @@ class CountDown(discord.Client):
                     self.idle_times = 1
                     self.playing = False
             else:
-                print("wait, %s" % self.idle_times)
+                if self.idle_times != 0 and self.idle_times % 12 == 0:
+                    print("wait, %s" % self.idle_times)
+
                 if self.idle_times > MIN_IDLE_TIMES:
                     await self.check_avqueue_status()
 
@@ -96,7 +98,9 @@ class CountDown(discord.Client):
                     healer_count += 1
                     break
 
-        print ("T: %d, H: %d, Total: %d" % (tank_count, healer_count, len(members)))
+        if self.idle_times != 0 and self.idle_times % 6 == 0:
+            print ("T: %d, H: %d, Total: %d" % (tank_count, healer_count, len(members)))
+
         if tank_count >= tank_req_floor and healer_count >= healer_req_floor:
             await self.play_count_down()
 
